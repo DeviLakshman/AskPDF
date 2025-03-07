@@ -61,7 +61,7 @@ def hybrid_search_full(query, top_k=10, alpha=0.5):
         else:
             heapq.heappushpop(heap, (hybrid_score, chunk))
 
-    return sorted(heap, =lambda x: x[0], reverse=True)
+    return sorted(heap,key =lambda x: x[0], reverse=True)
 
 # Get the query from command line arguments
 query = sys.argv[1]
