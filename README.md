@@ -21,5 +21,4 @@ https://stackoverflow.com/questions/74930757/uploading-single-and-multiple-files
 | `Embeddings `       | 🐢 Slower    | ✅ Yes                           | ✅ Yes                | Finding semantically similar content    |
 | `BM25 + Embeddings` | ⚡ Moderate  | ✅ Yes                           | ✅ Yes                | Balancing speed and meaning             |
 | `BERT Search`       | 🐌 Slowest   | ✅✅ Very Strong                | ✅✅ Best              | Deep contextual search                  |
-=======
 
