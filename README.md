@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # NaveaVentures-Assignment1
 Results for query based on the pdf uploaded by the user
 
@@ -22,6 +21,4 @@ https://stackoverflow.com/questions/74930757/uploading-single-and-multiple-files
 | `Embeddings `       | 🐢 Slower    | ✅ Yes                           | ✅ Yes                | Finding semantically similar content    |
 | `BM25 + Embeddings` | ⚡ Moderate  | ✅ Yes                           | ✅ Yes                | Balancing speed and meaning             |
 | `BERT Search`       | 🐌 Slowest   | ✅✅ Very Strong                | ✅✅ Best              | Deep contextual search                  |
-=======
-# AtlasGuild-assignment-1
->>>>>>> 92e05d5f1677ed9194cc5164c38403241eea82d3
+
