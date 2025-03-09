@@ -38,6 +38,7 @@ git clone this repo into your local folder
  run :
        `npm install`
 
+`npm start`
 ## BACKEND PART :
 
 • Navigate to backend folder : `npm install -g depcheck`
