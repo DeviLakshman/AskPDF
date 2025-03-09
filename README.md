@@ -24,3 +24,7 @@ https://stackoverflow.com/questions/74930757/uploading-single-and-multiple-files
 
 
 Reference used for huggingface model inference : https://huggingface.co/docs/api-inference/en/getting-started
+
+
+How to run :
+  
