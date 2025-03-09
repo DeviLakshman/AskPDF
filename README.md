@@ -22,3 +22,5 @@ https://stackoverflow.com/questions/74930757/uploading-single-and-multiple-files
 | `BM25 + Embeddings` | ⚡ Moderate  | ✅ Yes                           | ✅ Yes                | Balancing speed and meaning             |
 | `BERT Search`       | 🐌 Slowest   | ✅✅ Very Strong                | ✅✅ Best              | Deep contextual search                  |
 
+
+Reference used for huggingface model inference : https://huggingface.co/docs/api-inference/en/getting-started
