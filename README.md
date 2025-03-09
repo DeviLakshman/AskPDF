@@ -40,3 +40,6 @@ git clone this repo into your local folder
 
 navigate to backend folder : `npm install -g depcheck`
   
+`pip install requests sentence-transformers faiss-cpu numpy PyPDF2`
+ or 
+ `pip install -r requirements.txt`
