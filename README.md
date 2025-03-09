@@ -26,20 +26,32 @@ https://stackoverflow.com/questions/74930757/uploading-single-and-multiple-files
 Reference used for huggingface model inference : https://huggingface.co/docs/api-inference/en/getting-started
 
 
-## How to run :
-
+ How to run :
+-------
 git clone this repo into your local folder 
 
-### FRONTEND PART:
+## FRONTEND PART:
 
- Navigate to myapp
+
+• Navigate to myapp
+
  run :
        `npm install`
 
-### BACKEND PART :
+## BACKEND PART :
 
-navigate to backend folder : `npm install -g depcheck`
+• Navigate to backend folder : `npm install -g depcheck`
   
 `pip install requests sentence-transformers faiss-cpu numpy PyPDF2`
  or 
  `pip install -r requirements.txt`
+ 
+### Incase of any issues in the installments:
+
+• create a virtual environment in python
+
+`pip install virtualenv`
+
+`python -m virtualenv <env_name>`
+
+`<env_name>\scripts\activate`
