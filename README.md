@@ -26,5 +26,17 @@ https://stackoverflow.com/questions/74930757/uploading-single-and-multiple-files
 Reference used for huggingface model inference : https://huggingface.co/docs/api-inference/en/getting-started
 
 
-How to run :
+## How to run :
+
+git clone this repo into your local folder 
+
+### FRONTEND PART:
+
+ Navigate to myapp
+ run :
+       `npm install`
+
+### BACKEND PART :
+
+navigate to backend folder : `npm install -g depcheck`
   
