@@ -22,6 +22,11 @@ if (!fs.existsSync(uploadFolder)) {
     fs.mkdirSync(uploadFolder, { recursive: true }); // Creates folder if it doesn't exist
 }
 
+const outputsFolder = path.join(__dirname, 'outputs');
+if (!fs.existsSync(outputsFolder)) {
+    fs.mkdirSync(outputsFolder, { recursive: true }); // Creates folder if it doesn't exist
+}
+
 // Configure Multer for multiple files
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -36,33 +41,31 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Handle multiple file uploadsconst fs = require('fs');
-// const path = require('path');
 const crypto = require('crypto');
 
-// For demonstration: in-memory store of file hashes
-const storedHashes = [];
+const hashes = new Set() ;
 
 app.post('/upload_pdfs', upload.array('pdfs', 10), (req, res) => {
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ message: "No files uploaded" });
   }
-  
+
+
   const uniqueFiles = [];
   const duplicates = [];
 
   req.files.forEach(file => {
-    // Read file from disk and compute its SHA-256 hash
     const fileBuffer = fs.readFileSync(file.path);
     const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
 
-    // Check if this file's hash is already stored
-    if (storedHashes.includes(hash)) {
+    // Check if it's already encountered in this request
+    if (hashes.has(hash)) {
       duplicates.push(file);
-      // Optionally, remove the duplicate file
+
+      // Remove the duplicate from disk
       fs.unlinkSync(file.path);
     } else {
-      storedHashes.push(hash);
+      hashes.add(hash);
       uniqueFiles.push({
         filename: file.filename,
         path: file.path,
@@ -71,12 +74,11 @@ app.post('/upload_pdfs', upload.array('pdfs', 10), (req, res) => {
     }
   });
 
-  console.log('Unique files:', uniqueFiles);
-  console.log('Duplicates removed:', duplicates);
+  console.log('Unique files in this request:', uniqueFiles);
+  console.log('Duplicates in this request:', duplicates);
 
   res.status(200).json({ message: "Files uploaded successfully", files: uniqueFiles });
 });
-
 app.post('/run_extract',(req,res)=>{
     const pythonProcess = spawn ("python",["pycodes/pdf_to_text.py"])
     let output = "";
@@ -158,33 +160,6 @@ app.post('/query',(req,res)=>{
         res.json({ output: output.trim(), status: `Exited with code ${code}` });
     });
 });
-// const fs = require("fs");
-
-// app.post('/query', (req, res) => {
-//     console.log("Received query at nodejs:", req.body["query"]);
-//     const pythonProcess = spawn("python", ["pycodes/query_engine.py", req.body["query"]]);
-//     let output = "";
-
-//     pythonProcess.stdout.on("data", (data) => {
-//         output += data.toString();
-//     });
-
-//     pythonProcess.stderr.on("data", (data) => {
-//         console.error(`Error: ${data}`);
-//     });
-
-//     pythonProcess.on("close", (code) => {
-//         // Write the output to a text file named "query_output.txt"
-//         fs.writeFile("query_output.txt", output.trim(), (err) => {
-//             if (err) {
-//                 console.error("Error writing to file:", err);
-//                 return res.status(500).json({ message: "Failed to write output to file", error: err.message });
-//             }
-//             res.json({ message: "Output written to query_output.txt", status: `Exited with code ${code}` });
-//         });
-//     });
-// });
-
 
 
 app.get('/show_result', (req, res) => {
@@ -225,6 +200,45 @@ function removeAllFilesSync(directory) {
         fs.unlinkSync(filePath);
     }
 }
+// app.post('/delete_cache', (req, res) => {
+//     const { paths } = req.body;
+//     console.log("Paths to delete:", paths);
+
+//     // If paths is empty or not provided
+//     if (!Array.isArray(paths) || paths.length === 0) {
+//         return res.status(400).json({ message: "No file paths provided." });
+//     }
+//     const path = req.body["paths"] ;
+//     console.log(req.body)
+//     console.log(path)
+//     for(let i = 0 ; i < path.length ; i++ )
+//     {
+//         console.log(path[i]) ;
+//         removeAllFilesSync(path[i]);
+//     }
+//     paths.forEach(filePath => {
+//         try {
+//             // 1. Read the file so we can compute its hash
+//             const fileBuffer = fs.readFileSync(filePath);
+//             const hash = crypto.createHash('sha256').update(fileBuffer).digest('hex');
+
+//             // 2. Remove the hash from the global Set
+//             if (hashSet.has(hash)) {
+//                 hashSet.delete(hash);
+//                 console.log(`Deleted hash for file: ${filePath}`);
+//             }
+
+//             // 3. Remove the file from disk
+//             fs.unlinkSync(filePath);
+//             console.log(`Deleted file from disk: ${filePath}`);
+
+//         } catch (err) {
+//             console.error(`Error deleting file or removing hash: ${filePath}`, err);
+//         }
+//     });
+
+//     res.status(200).json({ message: "Cache deleted successfully." });
+// });
 
 app.post('/delete_cache',(req,res)=>{
     // Call the function
@@ -236,6 +250,7 @@ app.post('/delete_cache',(req,res)=>{
         console.log(path[i]) ;
         removeAllFilesSync(path[i]);
     }
+    hashes.clear() ;
 
     res.status(200).json({message : `Removed from successfully ${req.body["path"]}`})    
 })
