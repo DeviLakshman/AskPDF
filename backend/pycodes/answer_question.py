@@ -1,11 +1,7 @@
 import requests
 
 API_URL = "https://api-inference.huggingface.co/models/google/gemma-1.1-2b-it"
-<<<<<<< HEAD
 headers = {"Authorization": "Bearer Enter_your_huddingface_API_KEY_here"}
-=======
-headers = {"Authorization": "Bearer KEY"}
->>>>>>> 7a4ed31 (Fixed files upload error)
  
 def query(payload):
     response = requests.post(API_URL, headers=headers, json=payload)
