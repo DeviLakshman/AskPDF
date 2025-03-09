@@ -25,7 +25,8 @@ def fetch_all_files(parent_folder: str):
     return target_files
 
 def save_in_json():
-    files_list = fetch_all_files("./uploads")
+    files_list = fetch_all_files("./uploads") # used for server.js
+    # files_list = fetch_all_files("../uploads")
 
     cleaned_text_data = []
 
@@ -36,8 +37,8 @@ def save_in_json():
             "text": text
         })
 
-    # Save all extracted texts in a JSON file
-    with open("outputs/raw_text.json", "w", encoding="utf-8") as f:
+    with open("outputs/raw_text.json","w",encoding="utf-8") as f : # use this for server.js
+    # with open("../outputs/raw_text.json", "w", encoding="utf-8") as f : # using this for manual run
         json.dump(cleaned_text_data, f, ensure_ascii=True, indent=4)
     print("All PDF texts saved in raw_text.json ")
 

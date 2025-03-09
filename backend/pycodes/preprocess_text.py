@@ -42,7 +42,9 @@ def clean_text_pipeline(text):
 # raw_text = """Page 1 - Confidential Report\n\nDeep learn-\ning is part of AI.\n\n\n\n page Machine   learning powers AI."""
 
 cleaned_data = []
-with open("outputs/raw_text.json","rb") as file :
+
+with open("outputs/raw_text.json","rb") as file : # used for server.js
+# with open("../outputs/raw_text.json","rb") as file : # used for manual run
     data = json.load(file)
     for part in data :
         cleaned_data.append({
@@ -50,7 +52,8 @@ with open("outputs/raw_text.json","rb") as file :
             "text" : clean_text_pipeline(part["text"])
         })
 
-with open("outputs/cleaned_text.json", "w", encoding="utf-8") as f:
+with open("outputs/cleaned_text.json", "w", encoding="utf-8") as f: # used for server.js
+# with open("../outputs/cleaned_text.json", "w", encoding="utf-8") as f: # used for manual run
         json.dump(cleaned_data, f, ensure_ascii=True, indent=4)
 
 print("All PDF texts saved in cleaned_text.json ")
