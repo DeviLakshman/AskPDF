@@ -10,6 +10,7 @@ function App() {
   const [var2,setVar2] = useState(0) ;
   const [var3,setVar3] = useState(0) ;
   const [query,setQuery] = useState("") ;
+  const [querySent,setQuerySent] = useState(0) ;
   const [results,setResults] = useState([]);
   const [resultscame,setResultscame] = useState(0) ;
   const handleUpload = async (e) => {
@@ -130,9 +131,11 @@ function App() {
         body :JSON.stringify({query})
       }); 
       const result = response.json() ;
-      console.log("query result is " ,result)
+      console.log("query result is " ,result) ;
+      setQuerySent(1) ;
     }
     catch(error){
+        setQuerySent(0) ;
         console.error("Error > ",error);
     }
   }
@@ -158,7 +161,7 @@ function App() {
     }
   }
   
-  const removecache = async ()=>{
+  const removecache = async (e)=>{
     try{
       const response = await fetch("http://localhost:5000/delete_cache",{
         method : "POST" ,
@@ -167,8 +170,8 @@ function App() {
         }
         ,
         body : JSON.stringify({"paths":["outputs","uploads"]})
-
       });
+      window.location.reload();
       const result =  response.json() ;
       console.log(result) ;
 
@@ -193,43 +196,23 @@ function App() {
               <button onClick={extractData}>
                 Extract
               </button>
+              
+              { var1===1 && <button onClick={cleanData}> Clean the Data </button> }
+              { var2===1 && <button onClick={embedData}> Embed </button> }
+              
+              {(var1===5) && ( <p>Extracting.....</p> ) }
+              
+              { (var2===5)&&( <p>Cleaning .... </p> ) }
 
-              <button onClick={cleanData}>
-                Clean the Data
-              </button>
+              { (var3===5) && ( <p>Embedding ...</p> ) }
 
-              <button onClick={embedData}>
-                Embed
-              </button>
-              {
-                (var1===5) &&(
-                  <p>Extracting.....</p>
-                )
-              }
-              {
-                (var2===5)&&(
-                  <p>Cleaning . . . . . </p>
-                )
-              }
+              { (var1===1) && <p> Extracted </p> }
 
-              {
-                (var3===5) && (
-                  <p>Embedding ...</p>
-                )
-              }
-              {
-                (var1===1) && 
-                 <p> Extracted </p>
-              }
-              {
-                (var2===1) && 
-                 <p> cleaned </p>
-              }
-              {
-                (var3===1) &&
-                <p> Embedded</p>
-              }
-              {
+              { (var2===1) && <p> cleaned </p> }
+
+              { (var3===1) && <p> Embedded</p> }
+
+              { 
                 var1 && var2 && (var3===1) && (
                   
                   <form onSubmit={handleQuery}>
@@ -243,9 +226,7 @@ function App() {
                   </form>
                 )
               }
-              {
-                <button onClick={handleresult}>show results</button>
-              }
+              { querySent===1 && <button onClick={handleresult}>show results</button> }
                 <div >
                   <span style={{color:"yellow"}}></span>
                   {query}
