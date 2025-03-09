@@ -56,3 +56,5 @@ git clone this repo into your local folder
 `python -m virtualenv <env_name>`
 
 `<env_name>\scripts\activate`
+
+Ultimately run this -- `nodemon servrer`
